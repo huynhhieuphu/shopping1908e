@@ -153,3 +153,15 @@ Route::get('/tham-so-middleware', function(){
 Route::get('/not-access', function(){
    return "Bạn không có quyền truy cập";
 })->name('permit');
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Router - Controller
+
+/*
+ * $action: lúc này là tên-Controller@tên-Function
+ * */
+Route::get('/test-controller', 'TestController@index')->name('test.index');
+Route::get('/test-demo', 'TestController@demo')->name('test.demo');
+Route::get('/test-demoTwo', 'TestController@demoTwo')->name('test.demo.two');
+Route::get('/test-demoRequest/{name}/{id}', 'TestController@demoRequest')->name('test.demo.request');
+Route::get('/test-demoResponse', 'TestController@demoResponse')->name('test.demo.response');
