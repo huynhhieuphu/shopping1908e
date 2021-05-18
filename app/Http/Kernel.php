@@ -63,5 +63,12 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        /*
+         * Ý NGHĨA khi đặt tên đăng ký middleware
+         * Nếu 2 từ trở lên dùng (dấu chấm) . để ngăn cách
+         *    VD: authBasic -> 'auth.Basic' hoặc passwordConfirm -> 'passwrod.confirm)
+         * */
+        'check.age' => \App\Http\Middleware\checkAge::class, // Đăng ký middleware checkAge
+        'check.number' => \App\Http\Middleware\checkNumber::class, // Đăng ký middleware checkNumber
     ];
 }
