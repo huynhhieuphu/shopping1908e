@@ -105,7 +105,7 @@ Route::view('/router-view', 'router-view', ['name' => 'Tony Teo']);
  * $data: dữ liệu truyền vào view
  * */
 
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Middleware - Route
 Route::get('xem-phim/{nameFilm}/{age}', function ($nameFilm, $age) {
     return "Bạn đang xem phim : {$nameFilm} - độ tuổi cho phép : {$age} ";
@@ -115,10 +115,19 @@ Route::get('khong-duoc-xem', function () {
     return 'Ban chua du tuoi xem phim';
 })->name('khongduocxem');
 
+// tiếp tục ví dụ dùng middleware router
 
 Route::get('/check-number/{number}', function($number){
-    // hàm redirect() : điều hướng sang đường dẫn khác
+    /*
+     * Lưu ý: sau khi xử before middleware xong.
+     *
+     * Chưa return liền - mà sẽ quay lại middleware (Vị trí này là after middleware)
+     * kiểm tra request lại 1 lần nữa có được phép thực thi hay không ?
+     *
+     * Thực tế ít khi sử dụng after middleware.
+     * */
     return redirect(\route('sochan',['number' => $number]));
+    // hàm redirect() : điều hướng sang đường dẫn khác
 })->middleware('check.number');
 
 route::get('/so-chan/{number}', function ($number){
@@ -128,3 +137,19 @@ route::get('/so-chan/{number}', function ($number){
 route::get('/so-le/{number}', function ($number){
     return "Bạn vừa kiểm tra số lẻ {$number}";
 })->name('sole');
+
+// Truyền tham số vào middleware
+Route::get('/tham-so-middleware', function(){
+    // Yều cầu phải quyền admin mới cho phép xem nội dung
+    return "Bạn được phép xem nội dung này";
+})->middleware('check.role.user:admin');
+/*
+ * Giải thích: ->middleware('check.role.user:admin');
+ *
+ * check.role.user -> tên đăng ký middleware
+ * :admin -> tham số truyền vào middleware
+ * */
+
+Route::get('/not-access', function(){
+   return "Bạn không có quyền truy cập";
+})->name('permit');

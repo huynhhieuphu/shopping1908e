@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class checkNumber
+class checkRoleUser
 {
     /**
      * Handle an incoming request.
@@ -13,14 +13,15 @@ class checkNumber
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
-    {
-        // before middleware
-        $number = $request->number;
-        if($number % 2 != 0){
-            return redirect(route('sole', ['number' => $number]));
-        }
 
+    /*
+     * $params : là tham số truyền vào
+     * */
+    public function handle($request, Closure $next, $params)
+    {
+        if($params !== 'admin'){
+            return redirect(route('permit'));
+        }
         return $next($request);
     }
 }
