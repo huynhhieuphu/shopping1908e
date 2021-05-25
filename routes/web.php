@@ -139,15 +139,14 @@ route::get('/so-le/{number}', function ($number){
 })->name('sole');
 
 // Truyền tham số vào middleware
-Route::get('/tham-so-middleware', function(){
+Route::get('/admin/dashboard', function(){
     // Yều cầu phải quyền admin mới cho phép xem nội dung
     return "Bạn được phép xem nội dung này";
 })->middleware('check.role.user:admin');
 /*
  * Giải thích: ->middleware('check.role.user:admin');
- *
- * check.role.user -> tên đăng ký middleware
- * :admin -> tham số truyền vào middleware
+ *    check.role.user -> tên đăng ký middleware
+ *    :admin -> tham số truyền vào middleware
  * */
 
 Route::get('/not-access', function(){
@@ -161,7 +160,25 @@ Route::get('/not-access', function(){
  * $action: lúc này là tên-Controller@tên-Function
  * */
 Route::get('/test-controller', 'TestController@index')->name('test.index');
-Route::get('/test-demo', 'TestController@demo')->name('test.demo');
-Route::get('/test-demoTwo', 'TestController@demoTwo')->name('test.demo.two');
-Route::get('/test-demoRequest/{name}/{id}', 'TestController@demoRequest')->name('test.demo.request');
-Route::get('/test-demoResponse', 'TestController@demoResponse')->name('test.demo.response');
+
+// Middleware - Controller
+Route::get('/test-demoMiddleware', 'TestController@demoMiddleware')->name('test.demo.middleware');
+Route::get('/test-middlewareOnly', 'TestController@middlewareOnly')->name('test.middleware.only');
+Route::get('/test-middlewareExcept', 'TestController@middlewareExcept')->name('test.middleware.except');
+
+// Request
+Route::get('/demo-request/{name}/{id}', 'TestController@demoRequest')->name('test.demo.request');
+
+// Response
+Route::get('/demo-response', 'TestController@demoResponse')->name('test.demo.response');
+Route::post('/test-login', 'TestController@login')->name('test.login');
+
+// *** TEST ADMIN GROUP ***
+Route::group([
+    'prefix' => '/test/admin',
+    'as' => 'test.',
+    'namespace' => 'Test' // dùng để thay thế $action: Test/DashboardController@index
+], function (){
+    Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+    Route::get('/contact', 'ContactController@index')->name('contact');
+});

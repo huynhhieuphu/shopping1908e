@@ -105,6 +105,8 @@
       <path value="$PROJECT_DIR$/vendor/phpunit/php-timer" />
       <path value="$PROJECT_DIR$/vendor/phpunit/php-invoker" />
       <path value="$PROJECT_DIR$/vendor/theseer/tokenizer" />
+      <path value="$PROJECT_DIR$/vendor/voku/portable-utf8" />
+      <path value="$PROJECT_DIR$/vendor/voku/anti-xss" />
     </include_path>
   </component>
   <component name="PhpUnit">
