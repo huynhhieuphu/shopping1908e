@@ -170,14 +170,15 @@ Route::get('/test-middlewareExcept', 'TestController@middlewareExcept')->name('t
 Route::get('/demo-request/{name}/{id}', 'TestController@demoRequest')->name('test.demo.request');
 
 // Response
+//
 Route::get('/demo-response', 'TestController@demoResponse')->name('test.demo.response');
 Route::post('/test-login', 'TestController@login')->name('test.login');
 
 // *** TEST ADMIN GROUP ***
 Route::group([
-    'prefix' => '/test/admin',
-    'as' => 'test.',
-    'namespace' => 'Test' // dùng để thay thế $action: Test/DashboardController@index
+    'prefix' => '/test/admin', // dùng để chỉ request: /test/admin/dashboard
+    'as' => 'test.', // dùng để chỉ name : test.dashboard
+    'namespace' => 'Test' // dùng để chỉ response: Test/DashboardController@index
 ], function (){
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
     Route::get('/contact', 'ContactController@index')->name('contact');
