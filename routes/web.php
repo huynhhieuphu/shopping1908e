@@ -183,3 +183,12 @@ Route::group([
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
     Route::get('/contact', 'ContactController@index')->name('contact');
 });
+
+
+Route::group([
+    'prefix' => '/query-builder',
+    'namespace' => 'QueryBuilder',
+    'as' => 'query.'
+], function(){
+    Route::get('/test', 'QueryBuilderController@index')->name('index');
+});

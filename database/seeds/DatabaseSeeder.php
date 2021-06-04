@@ -12,9 +12,13 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
          $this->call([
-             //BrandSeeder::class,
-             //ColorSeeder::class,
-             //SizeSeeder::class
+//             BrandSeeder::class,
+//             CategorySeeder::class,
+//             ColorSeeder::class,
+//             ProductColorSeeder::class,
+//             ProductSeeder::class,
+//             ProductSizeSeeder::class,
+//             SizeSeeder::class
          ]);
     }
 }
