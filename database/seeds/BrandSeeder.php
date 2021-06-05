@@ -12,6 +12,7 @@ class BrandSeeder extends Seeder
      */
     public function run()
     {
+        // 1-juno, 2-bitis, 3-vina-giay, 4-bita
         for ($i = 1; $i <= 5; $i++) {
             DB::table('brands')->insert([
                 'name' => 'Test Brand ' . $i,

@@ -184,7 +184,7 @@ Route::group([
     Route::get('/contact', 'ContactController@index')->name('contact');
 });
 
-
+// QUERY BUILDER
 Route::group([
     'prefix' => '/query-builder',
     'namespace' => 'QueryBuilder',
@@ -192,3 +192,13 @@ Route::group([
 ], function(){
     Route::get('/test', 'QueryBuilderController@index')->name('index');
 });
+
+// ELOQUENT ORM
+Route::group([
+    'prefix' => '/orm',
+    'as' => 'orm.',
+    'namespace' => 'Orm'
+], function(){
+    route::get('/', 'TestController@index')->name('index');
+});
+

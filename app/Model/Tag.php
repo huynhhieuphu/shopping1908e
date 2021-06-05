@@ -4,7 +4,7 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Colors extends Model
+class Tag extends Model
 {
-    protected $table = 'colors';
+    protected $table = 'tags';
 }
