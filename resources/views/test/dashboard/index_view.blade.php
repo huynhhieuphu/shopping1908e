@@ -1,5 +1,5 @@
 {{-- kế thừa layou t test_layout.blade.php --}}
-@extends('test_layout')
+@extends('test-layout')
 {{-- hiển thị vùng chỉ định --}}
 @section('content')
     <h3 class="text-center">This is dashboard page</h3>

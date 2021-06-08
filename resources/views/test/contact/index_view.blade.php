@@ -1,4 +1,4 @@
-@extends('test_layout')
+@extends('test-layout')
 
 @push('stylesheet')
     <link rel="stylesheet" href="{{asset('test/css/myStyle.css')}}">
@@ -15,7 +15,7 @@
     $(document).ready(function(){
         alert('hihi');
     });
-    </script>   
+    </script>
 @endpush
 
 @section('content')

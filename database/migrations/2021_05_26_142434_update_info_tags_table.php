@@ -20,8 +20,9 @@ class UpdateInfoTagsTable extends Migration
             $table->string('meta_seo', 200)->nullable()->change();
             $table->text('description')->nullable()->change();
             // thêm column
-            $table->dateTime('created_at')->nullable()->after('status');
             $table->dateTime('updated_at')->nullable()->after('status');
+            // lý do: đặt code tạo created_at sau updated_at là do hàm after()
+            $table->dateTime('created_at')->nullable()->after('status');
             // xoá column
             $table->dropColumn('login_at');
         });
