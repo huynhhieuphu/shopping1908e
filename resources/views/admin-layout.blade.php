@@ -8,6 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    {{-- setup ajax laravel --}}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>SB Admin 2 - Dashboard</title>
 
@@ -79,6 +81,17 @@
 <!-- Page level custom scripts -->
 <script src="{{asset('admin/js/demo/chart-area-demo.js')}}"></script>
 <script src="{{asset('admin/js/demo/chart-pie-demo.js')}}"></script>
+
+<script type="text/javascript">
+    $(function(){
+        //setup ajax laravel
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    });
+</script>
 @stack('script')
 </body>
 

@@ -71,5 +71,7 @@ class Kernel extends HttpKernel
         'check.age' => \App\Http\Middleware\checkAge::class, // Đăng ký middleware checkAge
         'check.number' => \App\Http\Middleware\checkNumber::class, // Đăng ký middleware checkNumber
         'check.role.user' => \App\Http\Middleware\checkRoleUser::class,
+        'check.login.admin' => \App\Http\Middleware\checkLoginAdmin::class,
+        'is.admin.login' => \App\Http\Middleware\IsAdminLogin::class,
     ];
 }

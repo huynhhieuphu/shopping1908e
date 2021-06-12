@@ -38,7 +38,8 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Quản lý:</h6>
                 <a class="collapse-item" href="{{route('admin.brand.index')}}">Thương Hiệu</a>
-                <a class="collapse-item" href="cards.html">Danh muc sản phẩm</a>
+                <a class="collapse-item" href="{{route('admin.category.index')}}">Danh mục</a>
+                <a class="collapse-item" href="#">Sản phẩm</a>
             </div>
         </div>
     </li>
