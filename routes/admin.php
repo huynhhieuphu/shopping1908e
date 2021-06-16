@@ -28,6 +28,7 @@ Route::group([
 
     //categories
     Route::get('/category', 'CategoryController@index')->name('category.index');
+    Route::post('/category/handle-add', 'CategoryController@handleAdd')->name('category.handle.add');
 
     //products
 

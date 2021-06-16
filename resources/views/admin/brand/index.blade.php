@@ -8,9 +8,26 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">List Brand</h1>
+
+        <!-- Topbar Search -->
+        <div class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+            <div class="input-group">
+                <input type="text" class="form-control bg-light border small js-input-keyword-brand" placeholder="Search for..."
+                       aria-label="Search" aria-describedby="basic-addon2" value="{{$keyword}}">
+
+                <div class="input-group-append">
+                    <button class="btn btn-primary js-btn-search-brand" type="button">
+                        <i class="fas fa-search fa-sm"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
         <a href="{{route('admin.brand.add')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                 class="fas fa-download fa-sm text-white-50"></i> Add Brand</a>
     </div>
+
 
     <!-- Content Row -->
     <div class="row">
@@ -21,7 +38,6 @@
                     <span>{{$stateInsert}}</span>
                 </div>
             @endif
-
 
             <table class="table table-hover">
                 <thead>
@@ -72,7 +88,13 @@
 
             <div>
                 {{-- Hiển thị phân trang --}}
-                {{$listBrand->links()}}
+{{--                {{$listBrand->appends(request()->query())->links()}}--}}
+
+                {{--
+                    As of Laravel 7, you can call the withQueryString() method on your Paginator instance.
+                    If you wish to append all current query string values to the pagination links you may use the withQueryString method:
+                --}}
+                {{$listBrand->withQueryString()->links()}}
             </div>
         </div>
     </div>
@@ -82,6 +104,8 @@
     <script>
         // lấy ra đường dẫn xử lý hàm delete
         var urlBrand = "{{route('admin.brand.handle.delete')}}";
+        // xây dựng chức năng sreach
+        var urlSearch = "{{route('admin.brand.index')}}";
     </script>
     <script src="{{asset('admin/js/admin-brand.js')}}"></script>
 @endpush

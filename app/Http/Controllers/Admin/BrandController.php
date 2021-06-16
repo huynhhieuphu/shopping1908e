@@ -14,18 +14,25 @@ class BrandController extends Controller
 {
     const LIMITTED_ROW = 3; // thiết lập số dòng trong 1 trang
 
-    public function index(Request $request)
+    public function index(Request $request, AntiXSS $antiXSS)
     {
         // 1 - Hiển thị danh sách
         // 2 - Phân trang
+        // 3 - xử lý search
         $data = [];
-        $data['stateInsert'] = $request->session()->get('stateBrand');
 
+        $keyword = $request->keyword;
+        $keyword = $antiXSS->xss_clean($keyword);
+        $key = "%{$keyword}%";
+
+        $data['stateInsert'] = $request->session()->get('stateBrand');
         $data['listBrand'] = DB::table('brands')
-            ->orderBy('status', 'desc')
+            ->where('name','like', $key)
+            ->orderByDesc('status')
             ->orderBy('id')
             ->paginate(self::LIMITTED_ROW);
 
+        $data['keyword'] = $keyword;
         return view('admin.brand.index', $data);
     }
 
@@ -116,7 +123,8 @@ class BrandController extends Controller
 
     public function handleUpdate(UpdateBrandPost $request)
     {
-//        dd($request->all());
+        dd($request->all());
+
         $idBrand = $request->hddIdBrand;
         $nameBrand = $request->nameBrand;
         $slugBrand = Str::slug($nameBrand);

@@ -26,9 +26,9 @@ $(function () {
 
                         var result = $.trim(result);
                         if (result === 'error' || result === 'fail') {
-                            alert('delete fail');
+                            alert('Block fail');
                         } else {
-                            alert('delete success');
+                            alert('Block success');
                             window.location.reload(true);
                         }
                     }
@@ -36,4 +36,25 @@ $(function () {
             }
         }
     });
+
+    $('.js-btn-search-brand').on('click', function () {
+        var keyword = $('.js-input-keyword-brand').val().trim();
+        if (keyword.length >= 3) {
+            window.location.href = urlSearch + '?keyword=' + keyword;
+        }
+    });
+
+    // dành riêng cho việc nhấn enter
+    $('.js-input-keyword-brand').on('keyup', function (e) {
+        //e.preventDefault();
+        var self = $(this);
+        if(e.keyCode == 13){
+            var keyword = self.val().trim();
+            if (keyword.length >= 3) {
+                window.location.href = urlSearch + '?keyword=' + keyword;
+            }
+        }
+        return false;
+    });
+
 });
