@@ -123,13 +123,14 @@ class BrandController extends Controller
 
     public function handleUpdate(UpdateBrandPost $request)
     {
-        dd($request->all());
+        //sdd($request->all());
 
         $idBrand = $request->hddIdBrand;
         $nameBrand = $request->nameBrand;
         $slugBrand = Str::slug($nameBrand);
         $descBrand = $request->decrBrand;
         $sttBrand = $request->sttBrand;
+        $sttBrand = $sttBrand == '0' || $sttBrand == '1' ? $sttBrand : 0;
 
         $update = DB::table('brands')
             ->where('id', $idBrand)

@@ -29,6 +29,8 @@ Route::group([
     //categories
     Route::get('/category', 'CategoryController@index')->name('category.index');
     Route::post('/category/handle-add', 'CategoryController@handleAdd')->name('category.handle.add');
+    Route::get('/category/edit/{slug}~{id}','CategoryController@edit')->name('category.edit');
+    Route::post('/category/update', 'CategoryController@update')->name('category.update');
 
     //products
 

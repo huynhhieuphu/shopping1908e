@@ -1,15 +1,22 @@
 @extends('admin-layout')
 
 @push('stylesheet')
+    <link rel="stylesheet" href="{{asset('admin/css/treeview.css')}}">
+    <style>
+        .hover-point:hover {
+            cursor: pointer;
+        }
+    </style>
+@endpush
 
+@push('script')
+    <script src="{{asset('admin/js/treeview.js')}}"></script>
 @endpush
 
 @section('content')
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">List Category</h1>
-        <a href="{{route('admin.brand.add')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                class="fas fa-download fa-sm text-white-50"></i> Add Category</a>
     </div>
 
     <div class="row">
@@ -26,15 +33,7 @@
             @endif
 
             @if(!empty($message))
-                @if($message == 'addSuccess')
-                    <div class="alert alert-success">
-                        Add Success
-                    </div>
-                @elseif($message == 'addError')
-                    <div class="alert alert-danger">
-                        Add Fail
-                    </div>
-                @endif
+                {!! $message !!}
             @endif
 
             {{-- hiển thị form add category --}}
@@ -56,14 +55,31 @@
                 <button type="submit" id="btnAddCate" class="btn btn-primary">Tạo mới</button>
             </form>
         </div>
-        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-            {{-- hiển thị danh mục category --}}
+        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 ">
+            {{-- hiển thị danh mục category bằng treeview --}}
+            {{-- #tree1 chỉ ul sẽ được thay đổi --}}
+            <ul id="tree1">
+                @foreach($cateView as $item)
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                            <li class="hover-point">
+                                {{$item->name}}
+                                @if(count($item->childs))
+                                    {{-- ĐỆ QUY --}}
+                                    @include('admin.category.child-category', ['childs' => $item->childs])
+                                @endif
+                            </li>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                            <a class="float-right mt-0"
+                               href="{{route('admin.category.edit', ['id' => $item->id, 'slug' => $item->slug])}}"><i
+                                    class="fas fa-edit"></i></a>
+                        </div>
+                    </div>
+                @endforeach
+            </ul>
 
+            {{ $cateView->links() }}
         </div>
     </div>
 @endsection
-
-@push('script')
-
-@endpush
-
