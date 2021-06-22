@@ -33,5 +33,7 @@ Route::group([
     Route::post('/category/update', 'CategoryController@update')->name('category.update');
 
     //products
-
+    Route::get('/product', 'ProductController@index')->name('product.index');
+    Route::get('/product/add', 'ProductController@add')->name('product.add');
+    Route::post('/product/handle-add', 'ProductController@handleAdd')->name('product.handle.add');
 });

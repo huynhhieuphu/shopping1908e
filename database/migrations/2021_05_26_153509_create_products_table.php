@@ -21,7 +21,7 @@ class CreateProductsTable extends Migration
             $table->integer('quantity');
             $table->integer('price')->unsigned();
             $table->integer('brand_id')->unsigned();
-            $table->string('sale_off', 255)->nullable();
+            $table->integer('sale_off')->nullable();
             $table->string('code', 100)->nullable();
             $table->tinyInteger('status')->default(1);
             $table->integer('count_view')->unsigned();
