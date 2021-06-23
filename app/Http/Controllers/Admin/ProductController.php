@@ -17,10 +17,11 @@ use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
+    const LIMITED_ROW = 3;
     public function index(Request $request)
     {
-        $message = $request->session()->get('message');
-        return view('admin.product.index', compact('message'));
+        $products = Product::paginate(self::LIMITED_ROW);
+        return view('admin.product.index', compact('products'));
     }
 
     public function add(Request $request)
@@ -61,7 +62,7 @@ class ProductController extends Controller
         $colorProduct = $request->colorProd;
         $tagProduct = $request->tagProd;
         $sttProduct = $request->statusProd;
-        $sttProduct = $qtyProduct == 0 || $sttProduct == 1 ? $qtyProduct : 0;
+        $sttProduct = $qtyProduct == 0 || $sttProduct == 1 ? $sttProduct : 0;
 
         // Upload file
         $arrImageProduct = [];
@@ -132,6 +133,46 @@ class ProductController extends Controller
         } else {
             $request->session()->flash('message', '<div class=\'alert alert-danger\'>Lỗi tải ảnh</div>');
             return redirect()->route('admin.product.add');
+        }
+    }
+
+    public function edit(Request $request)
+    {
+        $idProduct = $request->id;
+        $idProduct = is_numeric($idProduct) && $idProduct > 0 ? $idProduct : 0;
+
+        if ($idProduct)
+        {
+            $product = DB::table('products')
+                ->where('id', $idProduct)
+                ->first();
+
+            $brands = Brand::where('status', 1)->get();
+            $categories = Category::where('status', 1)->get();
+            $colors = Color::where('status', 1)->get();
+            $sizes = Size::where('status', 1)->get();
+            $tags = Tag::where('status', 1)->get();
+
+            $productSize = DB::table('product_size')
+                ->where('product_id', $product->id)
+                ->get();
+
+            $productColor = DB::table('product_color')
+                ->where('product_id', $product->id)
+                ->get();
+
+            $productTag = DB::table('product_tag')
+                ->where('product_id', $product->id)
+                ->get();
+
+            // làm thế nào đổ dữ liệu hình theo id sản phẩm
+
+            return view('admin.product.edit', compact(
+                'product',
+                'brands', 'categories',
+                'colors', 'sizes', 'tags',
+                'productSize', 'productColor', 'productTag'
+            ));
         }
     }
 }
