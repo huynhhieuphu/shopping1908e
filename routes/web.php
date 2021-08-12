@@ -60,7 +60,7 @@ Route::get('/watch-film/{name?}', function ($nameFilm = null) {
     // {name?} là tham số không bắt buộc (có dấu chấm hỏi) - tuỳ chọn truyền hay không truyền trên url
 });
 
-// quy đình logic tham số
+// quy định logic tham số
 Route::get('/customer/edit/{id}', function ($idCustromer) {
     return "mã khách hàng phải là số: {$idCustromer}";
 })->where('id', '\d+');
@@ -80,7 +80,7 @@ Route::get('/profile-detail/{id}', function ($idProfile) {
 
 // group router
 //Route::group([
-//    'prefix' => 'Admin', // prefix
+//    'prefix' => 'Admin', // prefix : dùng để chỉ request: /Admin/url, ví dụ: /Admin/category hoặc /Admin/product
 //    'as' => 'admin.' // as định nghĩa như name, tiền tố của router
 //], function () {
 //    Route::get('/category', function () { // path: '/Admin/category'
@@ -97,7 +97,7 @@ Route::fallback(function () {
     return "Khong tim thay yeu cau";
 });
 
-// Router view: router trỏ thảng vào 1 view - trực tiếp gọi thẳng vào 1 view
+// Router view: router trỏ thẳng vào 1 view - trực tiếp gọi thẳng vào 1 view
 Route::view('/router-view', 'router-view', ['name' => 'Tony Teo']);
 /*
  * $uri : đường dẫn trên router

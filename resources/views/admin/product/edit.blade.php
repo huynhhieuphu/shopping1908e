@@ -3,9 +3,9 @@
 @push('stylesheet')
     <link href="{{asset('admin/css/image-uploader.min.css')}}" rel="stylesheet">
     <style>
-        .images-old {
+        span.preloaded {
+            display: none;
             visibility: hidden;
-            opacity: 0;
         }
     </style>
 @endpush
@@ -26,11 +26,12 @@
     @endif
 
     {{-- row content --}}
-    <form action="{{route('admin.product.handle.edit')}}" method="post" enctype="multipart/form-data"
+    <form action="{{route('admin.product.update')}}" method="post" enctype="multipart/form-data"
           class="border rounded my-3 p-2">
         @csrf
         <div class="row">
             <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                <input type="hidden" name="idProd" value="{{$product->id}}">
                 <div class="form-group">
                     <label for="nameProd" class="@error('nameProd') text-danger @enderror"> Tên sản phẩm (*)</label>
                     <input type="text" name="nameProd" id=nameProd"
@@ -81,7 +82,7 @@
                                     @if($brand->id == $product->brand_id) selected @endif>{{$brand->name}}</option>
                         @endforeach
                     </select>
-                    @error('quantityProd')
+                    @error('brandProd')
                     <div class="alert alert-danger mt-2">{{$message}}</div>
                     @enderror
                 </div>
@@ -100,14 +101,22 @@
                 </div>
                 <div class="form-group">
                     <label for="sizeProd" class="@error('sizeProd') text-danger @enderror"> Kích cỡ (*)</label>
+
                     <select name="sizeProd[]" id="sizeProd" class="form-control js-select-size" multiple>
-                        @foreach($sizes as $size)
-                            @foreach($productSize as $prodSize)
-                                <option value="{{$size->id}}"
-                                        @if($size->id == $prodSize->size_id) selected @endif>{{$size->size_number}}</option>
-                            @endforeach
-                        @endforeach
+                        <?php
+                        foreach ($sizes as $optionSize) {
+                        $flagColor = false;
+                        foreach ($selectedSizes as $selectedSize) {
+                            if ($optionSize->id == $selectedSize->size_id) {
+                                $flagColor = true;
+                            }
+                        }
+                        ?>
+                        <option
+                            value="{{$optionSize->id}}" <?= $flagColor ? 'selected' : '' ?>>{{$optionSize->size_number}}</option>
+                        <?php } ?>
                     </select>
+
                     @error('sizeProd')
                     <div class="alert alert-danger mt-2">{{$message}}</div>
                     @enderror
@@ -115,11 +124,14 @@
                 <div class="form-group">
                     <label for="colorProd" class="@error('colorProd') text-danger @enderror"> Màu sắc (*)</label>
                     <select name="colorProd[]" id="colorProd" class="form-control js-select-color" multiple>
-                        @foreach($colors as $color)
-                            @foreach($productColor as $prodColor)
-                                <option value="{{$color->id}}"
-                                        @if($color->id == $prodColor->color_id) selected @endif>{{$color->name}}</option>
+                        @foreach($colors as $opColor)
+                            @php $flagColor = false; @endphp
+                            @foreach($selectedColors as $selectedColor)
+                                @if($opColor->id == $selectedColor->color_id)
+                                    @php $flagColor = true; @endphp
+                                @endif
                             @endforeach
+                            <option value="{{$opColor->id}}" @if($flagColor) selected @endif>{{$opColor->name}}</option>
                         @endforeach
                     </select>
                     @error('colorProd')
@@ -129,11 +141,14 @@
                 <div class="form-group">
                     <label for="tagProd" class="@error('tagProd') text-danger @enderror"> Tag (*)</label>
                     <select name="tagProd[]" id="tagProd" class="form-control js-select-tag" multiple>
-                        @foreach($tags as $tag)
-                            @foreach($productTag as $prodTag)
-                                <option value="{{$tag->id}}"
-                                        @if($tag->id == $prodTag->tag_id) selected @endif>{{$tag->name}}</option>
+                        @foreach($tags as $opTag)
+                            @php $flagTag = false @endphp
+                            @foreach($selectedTags as $selectedTag)
+                                @if($opTag->id == $selectedTag->tag_id)
+                                    @php $flagTag = true @endphp
+                                @endif
                             @endforeach
+                            <option value="{{$opTag->id}}" @if($flagTag) selected @endif>{{$opTag->name}}</option>
                         @endforeach
                     </select>
                     @error('tagProd')
@@ -154,6 +169,7 @@
                 <div class="form-group">
                     <label for="imageProd"> Hình ảnh </label>
                     <div class="input-images"></div>
+                    <span class="preloaded">{{$product->images}}</span>
                 </div>
             </div>
         </div>
@@ -179,8 +195,24 @@
 
     <script>
         $(function () {
+            url = "{{asset('admin/upload/images')}}";
+            strImages = $('span.preloaded').html();
+            arrImages = JSON.parse(strImages);
+            preloaded = [];
 
-            $('.input-images').imageUploader();
+            arrImages.forEach(function (item, index) {
+                preloaded.push({
+                    'id': item,
+                    'src': url + "/" + item
+                });
+            });
+
+            $('.input-images').imageUploader({
+                preloaded: preloaded,
+                imagesInputName: 'newImages',
+                preloadedInputName: 'oldImages',
+            });
+
             $('#priceProd').maskMoney({precision: 0});
         });
     </script>

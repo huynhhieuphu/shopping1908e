@@ -38,4 +38,5 @@ Route::group([
     Route::post('/product/handle-add', 'ProductController@handleAdd')->name('product.handle.add');
     Route::get('/product/{slug}~{id}', 'ProductController@edit')->name('product.edit');
     Route::post('/product/handle-edit', 'ProductController@handleEdit')->name('product.handle.edit');
+    Route::post('/product/update', 'ProductController@update')->name('product.update');
 });

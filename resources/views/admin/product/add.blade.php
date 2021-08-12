@@ -68,7 +68,7 @@
                             <option value="{{$brand->id}}">{{$brand->name}}</option>
                         @endforeach
                     </select>
-                    @error('quantityProd')
+                    @error('brandProd')
                     <div class="alert alert-danger mt-2">{{$message}}</div>
                     @enderror
                 </div>
